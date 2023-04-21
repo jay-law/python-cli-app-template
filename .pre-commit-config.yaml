@@ -1,0 +1,27 @@
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: poetry run black python_cli_app_template
+        always_run: true
+        language: system
+        pass_filenames: false
+      - id: isort
+        name: isort
+        entry: poetry run isort .
+        always_run: true
+        language: system
+        pass_filenames: false  
+      - id: flake8
+        name: flake8
+        entry: poetry run flake8 python_cli_app_template
+        always_run: true
+        language: system
+        pass_filenames: false     
+      - id: mypy
+        name: mypy
+        entry: poetry run mypy python_cli_app_template
+        always_run: true
+        language: system
+        pass_filenames: false
