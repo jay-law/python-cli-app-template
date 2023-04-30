@@ -4,7 +4,7 @@ version = "0.1.1"
 description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
-packages = [{include = "python_cli_app_template"}]
+packages = [{include = "crud"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -29,4 +29,4 @@ profile = "black"
 line_length = 80
 
 [tool.poetry.scripts]
-cli-command = "python_cli_app_template.cli:main"
+cli-command = "crud.cli:main"
