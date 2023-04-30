@@ -132,7 +132,12 @@ poetry run cli-command
 ## Click
 
 ```bash
+# Add click
 poetry add click
+
+# Clear __init__.py
+
+
 
 ```
 
