@@ -1,5 +1,3 @@
-# python-cli-app-template
-
 # Recreate Template
 
 Commands to recreate this template from scratch.
@@ -10,8 +8,6 @@ First, create the repo in GitHub and clone locally.
 # Create pyproject.toml file
 poetry init
 # Use default for all except for defining dependencies.  Hit n for those
-
-
 
 # Build out project
 mkdir python_cli_app_template
@@ -27,6 +23,7 @@ python3 python_cli_app_template/__init__.py
 poetry run python3 python_cli_app_template/__init__.py 
 ```
 
+## Linters and Formatters
 
 ```bash
 # Configure Poetry to add venv inside the project
@@ -59,6 +56,8 @@ line_length = 80
 EOF
 
 ```
+
+## Pre-Commit
 
 ```bash
 # Add pre-commit as dev dependencies
@@ -100,12 +99,59 @@ poetry run pre-commit run --all-files
 
 # Install commit hooks
 poetry run pre-commit install
+
+# Push changes
 ```
+
+# Functionality
+
+
+## Add Poetry Script
 
 ```bash
+
+echo "print('Hello World')" > python_cli_app_template/__init__.py
+
+# Update __init__.py - add main()
+cat << EOF > python_cli_app_template/__init__.py
+def main():
+    print("Hello World")
+EOF
+
+# Update pyproject.toml - add script
+cat << EOF >> pyproject.toml
+
+[tool.poetry.scripts]
+cli-command = "python_cli_app_template:main"
+EOF
+
+# Execute
+poetry run cli-command
+```
+
+## Click
+
+```bash
+poetry add click
+
+```
+
+# Git
+
+## Push Changes
+
+```bash
+# Increment version
 poetry version patch
 
+# Add files to commit
 git add .
 
+# Commit changes
 git commit -m 'initial commit'
+# The pre-commit hook will be triggered
+
+# Push changes
+git push
 ```
+
