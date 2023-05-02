@@ -1,39 +1,69 @@
+import logging
+from pathlib import PurePath
+
 import click
+
+from crud.config import configure_app
+from crud.log import configure_logging
+
+logger = logging.getLogger(__name__)
 
 
 @click.group
-def actions():
+@click.option(
+    "-v",
+    "--verbosity",
+    "log_level",
+    default="INFO",
+    type=click.Choice(
+        ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        case_sensitive=False,
+    ),
+)
+@click.option("-c", "--config", "config_file", type=str)
+@click.option(
+    "-l",
+    "--log",
+    "log_file",
+    type=str,
+    default=lambda: PurePath(PurePath(__file__).parent.parent, "logs"),
+)
+def cli(log_level, config_file, log_file):
+    configure_app(config_file)
+    configure_logging(log_level)
+
+    logger.debug("debug")
+    logger.info("info")
+    logger.warning("warning")
+    logger.error("error")
+    logger.critical("critical")
+
     pass
 
 
-@click.command()
+@cli.command()
 def create():
-    click.echo("create")
+    logger.info("create command")
 
 
-@click.command()
+
+@cli.command()
 def read():
-    click.echo("read")
+    logger.info("read command")
 
 
-@click.command()
+@cli.command()
 def update():
-    click.echo("update")
+    logger.info("update command")
 
 
-@click.command()
+@cli.command()
 def delete():
-    click.echo("delete")
-
-
-actions.add_command(create)
-actions.add_command(read)
-actions.add_command(update)
-actions.add_command(delete)
+    logger.info("delete command")
 
 
 def main():
-    actions()
+    cli()
 
 
 if __name__ == "__main__":
