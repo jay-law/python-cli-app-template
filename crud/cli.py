@@ -29,14 +29,10 @@ logger = logging.getLogger(__name__)
     default=lambda: PurePath(PurePath(__file__).parent.parent, "logs"),
 )
 def cli(log_level, config_file, log_file):
-    configure_app(config_file)
+    config = configure_app(config_file)
     configure_logging(log_level)
 
-    logger.debug("debug")
-    logger.info("info")
-    logger.warning("warning")
-    logger.error("error")
-    logger.critical("critical")
+    print(f"settings: {config.settings}")
 
     pass
 
@@ -44,7 +40,6 @@ def cli(log_level, config_file, log_file):
 @cli.command()
 def create():
     logger.info("create command")
-
 
 
 @cli.command()
