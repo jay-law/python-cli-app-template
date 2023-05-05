@@ -1,37 +1,32 @@
 import logging
-from pathlib import PurePath
+import logging.config
 
 import click
 
 from crud.config import configure_app
-from crud.log import configure_logging
 
 logger = logging.getLogger(__name__)
 
 
 @click.group
-@click.option(
-    "-v",
-    "--verbosity",
-    "log_level",
-    default="INFO",
-    type=click.Choice(
-        ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-        case_sensitive=False,
-    ),
-)
+@click.option("-v", "--verbose", is_flag=True)
 @click.option("-c", "--config", "config_file", type=str)
-@click.option(
-    "-l",
-    "--log",
-    "log_file",
-    type=str,
-    default=lambda: PurePath(PurePath(__file__).parent.parent, "logs"),
-)
 @click.pass_context
-def cli(ctx, log_level, config_file, log_file):
+def cli(ctx, verbose, config_file):
     config = configure_app(config_file)
-    configure_logging(log_level)
+
+    logging.config.fileConfig("configs/dev/logging.ini", disable_existing_loggers=False)
+
+    if verbose:
+        logger.info("Verbose logging enabled")
+        for handler in logging.getLogger().handlers:
+            handler.setLevel("DEBUG")
+
+    logger.debug("debug message")
+    logger.info("info message")
+    logger.warning("warn message")
+    logger.error("error message")
+    logger.critical("critical message")
 
     ctx.ensure_object(dict)
     ctx.obj["settings"] = config.settings
