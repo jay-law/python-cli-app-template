@@ -12,9 +12,6 @@ class ConfigFile:
         self.type, self.settings = self._set_type(config_file)
 
     def _set_type(self, config_file):
-        if not Path(config_file).exists():
-            raise FileNotFoundError(f"Bad config file: {config_file}")
-
         match PurePath(config_file).suffix[1:].lower():
             case "ini":
                 return ("INI", self._parse_ini(config_file))
@@ -29,8 +26,7 @@ class ConfigFile:
 
 
 def configure_app(config_file):
-    if config_file is None:
-        print("No config file provided")
-        return
+    if not Path(config_file).exists():
+        raise FileNotFoundError(f"Bad config file: {config_file}")
 
     return ConfigFile(config_file)

@@ -19,7 +19,7 @@ def configure_logging(config_file, verbose):
 
 @click.group
 @click.option("-v", "--verbose", is_flag=True)
-@click.option("-c", "--config", "config_file", type=str)
+@click.option("-c", "--config", "config_file", type=str, required=True)
 @click.pass_context
 def cli(ctx, verbose, config_file):
     config = configure_app(config_file)
@@ -38,10 +38,7 @@ def cli(ctx, verbose, config_file):
 def create(ctx):
     logger.info("create command")
 
-    settings = ctx.obj["settings"]
-
-    for section in settings.sections():
-        print(f"{dict(settings[section])}")
+    # settings = ctx.obj["settings"]
 
 
 @cli.command()
