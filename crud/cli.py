@@ -8,13 +8,7 @@ from crud.config import configure_app
 logger = logging.getLogger(__name__)
 
 
-@click.group
-@click.option("-v", "--verbose", is_flag=True)
-@click.option("-c", "--config", "config_file", type=str)
-@click.pass_context
-def cli(ctx, verbose, config_file):
-    config = configure_app(config_file)
-
+def configure_logging(verbose):
     logging.config.fileConfig("configs/logging.ini", disable_existing_loggers=False)
 
     if verbose:
@@ -27,6 +21,16 @@ def cli(ctx, verbose, config_file):
     logger.warning("warn message")
     logger.error("error message")
     logger.critical("critical message")
+
+
+@click.group
+@click.option("-v", "--verbose", is_flag=True)
+@click.option("-c", "--config", "config_file", type=str)
+@click.pass_context
+def cli(ctx, verbose, config_file):
+    config = configure_app(config_file)
+
+    configure_logging(verbose)
 
     ctx.ensure_object(dict)
     ctx.obj["settings"] = config.settings
