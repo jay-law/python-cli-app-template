@@ -8,19 +8,13 @@ from crud.config import configure_app
 logger = logging.getLogger(__name__)
 
 
-def configure_logging(verbose):
-    logging.config.fileConfig("configs/logging.ini", disable_existing_loggers=False)
+def configure_logging(config_file, verbose):
+    logging.config.fileConfig(config_file, disable_existing_loggers=False)
 
     if verbose:
         logger.info("Verbose logging enabled")
         for handler in logging.getLogger().handlers:
             handler.setLevel("DEBUG")
-
-    logger.debug("debug message")
-    logger.info("info message")
-    logger.warning("warn message")
-    logger.error("error message")
-    logger.critical("critical message")
 
 
 @click.group
@@ -30,8 +24,9 @@ def configure_logging(verbose):
 def cli(ctx, verbose, config_file):
     config = configure_app(config_file)
 
-    configure_logging(verbose)
+    configure_logging(config_file, verbose)
 
+    # params made available to cli.commands
     ctx.ensure_object(dict)
     ctx.obj["settings"] = config.settings
 
@@ -42,7 +37,11 @@ def cli(ctx, verbose, config_file):
 @click.pass_context
 def create(ctx):
     logger.info("create command")
-    logger.info(f"settings: {ctx.obj['settings']}")
+
+    settings = ctx.obj["settings"]
+
+    for section in settings.sections():
+        print(f"{dict(settings[section])}")
 
 
 @cli.command()

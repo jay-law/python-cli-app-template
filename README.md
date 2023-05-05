@@ -7,6 +7,8 @@ poetry run pre-commit run --all-files
 poetry run cli-command
 
 # execute 
-poetry run cli-command -c test/data/config.ini create
+poetry run cli-command -c configs/dev/config.ini create
 
+
+poetry run cli-command -c configs/dev/config.ini create
 ```
