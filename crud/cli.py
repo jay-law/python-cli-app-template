@@ -28,32 +28,39 @@ logger = logging.getLogger(__name__)
     type=str,
     default=lambda: PurePath(PurePath(__file__).parent.parent, "logs"),
 )
-def cli(log_level, config_file, log_file):
+@click.pass_context
+def cli(ctx, log_level, config_file, log_file):
     config = configure_app(config_file)
     configure_logging(log_level)
 
-    print(f"settings: {config.settings}")
+    ctx.ensure_object(dict)
+    ctx.obj["settings"] = config.settings
 
     pass
 
 
 @cli.command()
-def create():
+@click.pass_context
+def create(ctx):
     logger.info("create command")
+    logger.info(f"settings: {ctx.obj['settings']}")
 
 
 @cli.command()
-def read():
+@click.pass_context
+def read(ctx):
     logger.info("read command")
 
 
 @cli.command()
-def update():
+@click.pass_context
+def update(ctx):
     logger.info("update command")
 
 
 @cli.command()
-def delete():
+@click.pass_context
+def delete(ctx):
     logger.info("delete command")
 
 
