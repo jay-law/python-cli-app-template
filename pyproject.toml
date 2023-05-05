@@ -21,12 +21,8 @@ pre-commit = "^3.2.2"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.black]
-line-length = 79
-
 [tool.isort]
 profile = "black"
-line_length = 80
 
 [tool.poetry.scripts]
 cli-command = "crud.cli:main"
