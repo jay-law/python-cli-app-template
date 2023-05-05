@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 def cli(ctx, verbose, config_file):
     config = configure_app(config_file)
 
-    logging.config.fileConfig("configs/dev/logging.ini", disable_existing_loggers=False)
+    logging.config.fileConfig("configs/logging.ini", disable_existing_loggers=False)
 
     if verbose:
         logger.info("Verbose logging enabled")
