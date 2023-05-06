@@ -1,11 +1,12 @@
 from configparser import ConfigParser, ExtendedInterpolation
 from pathlib import Path, PurePath
 
+from dotenv import dotenv_values, load_dotenv
+
 
 class ConfigFile:
     path: PurePath
     type: str
-    settings: ConfigParser
 
     def __init__(self, config_file) -> None:
         self.path = config_file
@@ -15,6 +16,8 @@ class ConfigFile:
         match PurePath(config_file).suffix[1:].lower():
             case "ini":
                 return ("INI", self._parse_ini(config_file))
+            case "env":
+                return ("ENV", self._load_env(config_file))
             case _:
                 print("bad file type found")
 
@@ -24,9 +27,18 @@ class ConfigFile:
 
         return parser
 
+    def _load_env(self, env_file):
+        load_dotenv(env_file)
+        return dotenv_values(env_file)
 
-def configure_app(config_file):
+
+def configure_app(config_file, env_file):
     if not Path(config_file).exists():
-        raise FileNotFoundError(f"Bad config file: {config_file}")
+        raise FileNotFoundError(f"Bad file: {config_file}")
+
+    if env_file is not None:
+        if not Path(env_file).exists():
+            raise FileNotFoundError(f"Bad file: {env_file}")
+        ConfigFile(env_file)
 
     return ConfigFile(config_file)

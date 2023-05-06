@@ -11,12 +11,14 @@
 # See options
 poetry run cli-command
 
-# Execute 'read' command
-poetry run cli-command -c configs/dev/config.ini read
+# Execute 'create' command
+poetry run cli-command -c configs/config.ini create 
+
+# Execute 'create' command with .env file
+poetry run cli-command -c configs/config.ini -e configs/dev.env create
 ```
 
 # Configure
-
 
 # Contribute
 
