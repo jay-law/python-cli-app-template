@@ -1,10 +1,10 @@
 import logging
 import logging.config
-import os
 from pathlib import PurePath
 
 import click
 
+from crud.commands.factory import CmdFactory
 from crud.config import configure_app
 
 logger = logging.getLogger(__name__)
@@ -25,13 +25,13 @@ def configure_logging(config_file=PurePath("configs", "logging.ini"), verbose=Fa
 @click.option("-e", "--environment", "env_file", type=str)
 @click.pass_context
 def cli(ctx, verbose_flg, config_file, env_file):
-    config = configure_app(config_file, env_file)
+    config_parser = configure_app(config_file, env_file)
 
     configure_logging(verbose=verbose_flg)
 
     # params made available to cli.commands
     ctx.ensure_object(dict)
-    ctx.obj["settings"] = config.settings
+    ctx.obj["config"] = config_parser.settings
 
     pass
 
@@ -39,16 +39,9 @@ def cli(ctx, verbose_flg, config_file, env_file):
 @cli.command()
 @click.pass_context
 def create(ctx):
-    logger.info("create command")
-
-    settings = ctx.obj["settings"]
-
-    # Confirm config works
-    logger.info(f"conf_file source: {settings['DEFAULTS']['SOURCE']}")
-    try:
-        logger.info(f"env_file source: {os.environ['SOURCE']}")
-    except KeyError:
-        logger.error("Env var SOURCE does not exist")
+    cmd = CmdFactory.generate_command(cmd="create", config=ctx.obj["config"])
+    cmd.validate_config()
+    cmd.execute()
 
 
 @cli.command()
