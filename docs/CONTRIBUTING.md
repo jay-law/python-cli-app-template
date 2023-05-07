@@ -1,4 +1,6 @@
 
+# Execution
+
 ## Examples
 
 ```bash
@@ -13,4 +15,12 @@ poetry run cli-command -c configs/config.ini -e configs/dev.env create
 
 # Execute 'read' command and pass parameter
 poetry run cli-command -c configs/config.ini -e configs/dev.env read -f file_to_read.txt
+```
+
+# Packaging
+
+```bash
+# Create executable
+poetry run pyinstaller crud/cli.py --onefile
+# Creates dist/cli
 ```
