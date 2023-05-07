@@ -26,9 +26,6 @@ jobs:
       - name: Build with pyinstaller
         run: |
           poetry run pyinstaller crud/cli.py --onefile
-      - name: List dir
-        run: |
-          ll dist
       - name: Get version with Poetry
         run: |
           poetry version short
