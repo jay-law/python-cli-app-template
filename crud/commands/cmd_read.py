@@ -1,6 +1,9 @@
-from crud.commands.base import BaseCommand
 import logging
+
+from crud.commands.base import BaseCommand
+
 logger = logging.getLogger(__name__)
+
 
 class ReadCmd(BaseCommand):
     cmd: str = "read"

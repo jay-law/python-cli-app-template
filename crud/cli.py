@@ -10,24 +10,24 @@ from crud.config import configure_app
 logger = logging.getLogger(__name__)
 
 
-def configure_logging(config_file=PurePath("configs", "logging.ini"), verbose=False):
+def configure_logging(config_file=PurePath("configs", "logging.ini"), log_level=str):
     logging.config.fileConfig(config_file, disable_existing_loggers=False)
 
-    if verbose:
-        logger.info("Verbose logging enabled")
+    if log_level is not None:
         for handler in logging.getLogger().handlers:
-            handler.setLevel("DEBUG")
+            handler.setLevel(log_level)
 
 
 @click.group
-@click.option("-v", "--verbose_flg", is_flag=True)
+@click.option("-v", "--verbose", "log_level", flag_value="DEBUG")
+@click.option("-q", "--quiet", "log_level", flag_value="CRITICAL")
 @click.option("-c", "--config", "config_file", type=str, required=True)
 @click.option("-e", "--environment", "env_file", type=str)
 @click.pass_context
-def cli(ctx, verbose_flg, config_file, env_file):
+def cli(ctx, log_level, config_file, env_file):
     config_parser = configure_app(config_file, env_file)
 
-    configure_logging(verbose=verbose_flg)
+    configure_logging(log_level=log_level)
 
     # params made available to cli.commands
     ctx.ensure_object(dict)
