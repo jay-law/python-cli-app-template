@@ -1,12 +1,9 @@
-import logging
-
 from crud.commands.base import BaseCommand
-
+import logging
 logger = logging.getLogger(__name__)
 
-
-class CreateCmd(BaseCommand):
-    cmd: str = "create"
+class UpdateCmd(BaseCommand):
+    cmd: str = "update"
 
     def __init__(self, config):
         super().__init__()

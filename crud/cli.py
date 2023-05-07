@@ -46,20 +46,27 @@ def create(ctx):
 
 @cli.command()
 @click.pass_context
-def read(ctx):
-    logger.info("read command")
+@click.option("-f", "--file", "file", type=str)
+def read(ctx, file):
+    cmd = CmdFactory.generate_command(cmd="read", config=ctx.obj["config"])
+    cmd.validate_config()
+    cmd.execute(file)
 
 
 @cli.command()
 @click.pass_context
 def update(ctx):
-    logger.info("update command")
+    cmd = CmdFactory.generate_command(cmd="update", config=ctx.obj["config"])
+    cmd.validate_config()
+    cmd.execute()
 
 
 @cli.command()
 @click.pass_context
 def delete(ctx):
-    logger.info("delete command")
+    cmd = CmdFactory.generate_command(cmd="delete", config=ctx.obj["config"])
+    cmd.validate_config()
+    cmd.execute()
 
 
 def main():
