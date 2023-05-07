@@ -1,0 +1,39 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+  # pull_request:
+  #   types: [opened, reopened]
+  #   branches:
+  #     - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+      - name: Install packages
+        run: |
+          poetry install
+      - name: Build with pyinstaller
+        run: |
+          poetry run pyinstaller crud/cli.py --onefile
+      - name: List dir
+        run: |
+          ll dist
+      - name: Get version with Poetry
+        run: |
+          poetry version short
+      - name: Confirm GitHub CLI
+        run: |
+          gh status
+          poetry version short
+          whoami
