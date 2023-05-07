@@ -13,29 +13,15 @@ Implements the following:
 - Reading .ini config files
 - Setting env vars with .env files
 
-# Install
+# Installing
 
-# Use
+# Using
 
-## Examples
+# Configuring
 
-```bash
-# See options
-poetry run cli-command
+# Contributing
 
-# Execute 'create' command
-poetry run cli-command -c configs/config.ini create 
-
-# Execute 'create' command with .env file
-poetry run cli-command -c configs/config.ini -e configs/dev.env create
-
-# Execute 'read' command and pass parameter
-poetry run cli-command -c configs/config.ini -e configs/dev.env read -f file_to_read.txt
-```
-
-# Configure
-
-# Contribute
+See `docs/CONTRIBUTING.md`
 
 ```bash
 # lint
