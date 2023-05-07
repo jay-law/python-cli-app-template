@@ -10,7 +10,6 @@ from crud.config import configure_app
 logger = logging.getLogger(__name__)
 
 
-
 def configure_logging(config_file=PurePath("configs", "logging.ini"), log_level=str):
     logging.config.fileConfig(config_file, disable_existing_loggers=False)
 
