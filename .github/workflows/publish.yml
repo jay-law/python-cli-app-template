@@ -23,16 +23,11 @@ jobs:
       - name: Install packages
         run: |
           poetry install
-      - name: Build with pyinstaller
+      - name: Build artifact
         run: |
           poetry run pyinstaller crud/cli.py --onefile
-      - name: Get version with Poetry
-        run: |
-          poetry version --short
-      - name: Confirm GitHub CLI
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh status
-          poetry version --short
-          whoami
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: cli-linux
+          path: ./dist/cli
