@@ -30,6 +30,8 @@ jobs:
         run: |
           poetry version --short
       - name: Confirm GitHub CLI
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh status
           poetry version --short
