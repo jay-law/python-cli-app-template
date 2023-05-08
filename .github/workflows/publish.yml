@@ -28,9 +28,9 @@ jobs:
           poetry run pyinstaller crud/cli.py --onefile
       - name: Get version with Poetry
         run: |
-          poetry version short
+          poetry version --short
       - name: Confirm GitHub CLI
         run: |
           gh status
-          poetry version short
+          poetry version --short
           whoami
