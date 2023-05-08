@@ -33,4 +33,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: cli-linux
-          path: ./dist/cli
+          path: ./dist/crud-cli-linux-$(poetry version -s).tar.gz
+          if-no-files-found: error
