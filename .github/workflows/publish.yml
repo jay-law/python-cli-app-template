@@ -25,7 +25,10 @@ jobs:
           poetry install
       - name: Build artifact
         run: |
-          poetry run pyinstaller crud/cli.py --onefile
+          poetry run pyinstaller crud/cli.py --onefile --name cli
+      - name: Compress artifact
+        run: |
+          tar -C ./dist -czf ./dist/crud-cli-linux-$(poetry version -s).tar.gz cli
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
