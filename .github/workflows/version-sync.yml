@@ -27,15 +27,14 @@ jobs:
           date > generated.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add .
-          git commit -m "generated"
+          git tag -f $VERSION
           git push
 
 
-      - name: Tag new target
-        run: git tag -f $VERSION
-      - name: Push new tag
-        run: git push  
+      # - name: Tag new target
+      #   run: git tag -f $VERSION
+      # - name: Push new tag
+      #   run: git push  
       
       
       
