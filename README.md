@@ -17,17 +17,20 @@ Implements the following:
 
 ```bash
 # Download
-wget https://github.com/jay-law/python-crud-template/releases/download/0.1.6/crud-cli-linux-0.1.6.tar.gz
+wget https://github.com/jay-law/python-crud-template/releases/download/0.1.7/crud-cli-linux-0.1.7.tar.gz
 
 # Uncompress
-tar -xvf crud-cli-linux-0.1.6.tar.gz
+tar -xvf crud-cli-linux-0.1.7.tar.gz
+
+# Download config (optional)
+wget https://raw.githubusercontent.com/jay-law/python-crud-template/main/configs/config.ini
 ```
 
 # Using
 
 ```bash
 # Execute
-./cli -c /home/jon/Documents/repos/personal/python-crud-template/configs/config.ini create
+./cli -c config.ini create
 ```
 
 # Configuring
