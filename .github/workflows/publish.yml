@@ -8,8 +8,10 @@ on:
   #     - main
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,15 +25,22 @@ jobs:
       - name: Install packages
         run: |
           poetry install
+      - name: Set version env var
+        run: |
+          echo "VERSION=$(poetry version -s)" >> $GITHUB_ENV
       - name: Build artifact
         run: |
           poetry run pyinstaller crud/cli.py --onefile --name cli
       - name: Compress artifact
         run: |
           tar -C ./dist -czf ./dist/crud-cli-linux-$(poetry version -s).tar.gz cli
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: cli-linux
+      #     path: ./dist/crud-cli-linux-$(poetry version -s).tar.gz
+      #     if-no-files-found: error
+      - uses: ncipollo/release-action@v1
         with:
-          name: cli-linux
-          path: ./dist/crud-cli-linux-$(poetry version -s).tar.gz
-          if-no-files-found: error
+          artifacts: "./dist/*"
+          tag: $VERSION

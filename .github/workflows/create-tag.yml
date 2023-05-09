@@ -1,25 +1,14 @@
-name: Version Sync
+name: Create Tag
 
 on:
   workflow_dispatch:
-    # inputs:
-    #   target:
-    #     description: The tag or reference to use
-    #     required: true
-  # pull_request:
-  #   types: [opened, reopened]
-  #   branches:
-  #     - main
 
 jobs:
-  sync:
+  tag:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        # with:
-        #   fetch-depth: 0
-      
       - name: Install poetry
         run: pipx install poetry
       - name: Set up Python
@@ -29,30 +18,10 @@ jobs:
           cache: 'poetry'      
       - name: Set version env var
         run: echo "VERSION=$(poetry version -s)" >> $GITHUB_ENV
-
-      - name: Git config
+      - name: Create tag
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git tag -f $VERSION
           git tag
           git push origin $VERSION
-
-
-      # - name: Tag new target
-      #   run: git tag -f $VERSION
-      # - name: Push new tag
-      #   run: git push  
-      
-      
-      
-
-
-
-
-      # - name: See current Git tag
-      #   run: |
-      #     git status
-      #     git describe --tags
-
-
