@@ -42,5 +42,5 @@ jobs:
       #     if-no-files-found: error
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "./dist/*"
-          tag: $VERSION
+          artifacts: "./dist/*.tar.gz"
+          tag: ${{ env.VERSION }}
