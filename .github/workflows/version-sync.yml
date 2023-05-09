@@ -1,0 +1,35 @@
+name: Version Sync
+
+on:
+  workflow_dispatch:
+  # pull_request:
+  #   types: [opened, reopened]
+  #   branches:
+  #     - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+      - name: Set env
+        run: echo "VERSION=$(poetry version -s)" >> $GITHUB_ENV
+      - name: Test
+        run: echo $VERSION
+      - name: Setup git
+        run: |
+          git config --local user.email "jay-law-bot@users.noreply.github.com"
+          git config --local user.name "jay-law-bot"
+
+      - name: See current Git tag
+        run: git describe --tags
+
+

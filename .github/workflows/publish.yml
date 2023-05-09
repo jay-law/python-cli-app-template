@@ -23,17 +23,15 @@ jobs:
       - name: Install packages
         run: |
           poetry install
-      - name: Build with pyinstaller
+      - name: Build artifact
         run: |
-          poetry run pyinstaller crud/cli.py --onefile
-      - name: List dir
+          poetry run pyinstaller crud/cli.py --onefile --name cli
+      - name: Compress artifact
         run: |
-          ll dist
-      - name: Get version with Poetry
-        run: |
-          poetry version short
-      - name: Confirm GitHub CLI
-        run: |
-          gh status
-          poetry version short
-          whoami
+          tar -C ./dist -czf ./dist/crud-cli-linux-$(poetry version -s).tar.gz cli
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: cli-linux
+          path: ./dist/crud-cli-linux-$(poetry version -s).tar.gz
+          if-no-files-found: error
