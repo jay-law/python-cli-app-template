@@ -30,6 +30,8 @@ jobs:
           git config --local user.name "jay-law-bot"
 
       - name: See current Git tag
-        run: git describe --tags
+        run: |
+          git status
+          git describe --tags
 
 
