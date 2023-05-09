@@ -2,10 +2,10 @@ name: Version Sync
 
 on:
   workflow_dispatch:
-    inputs:
-      target:
-        description: The tag or reference to use
-        required: true
+    # inputs:
+    #   target:
+    #     description: The tag or reference to use
+    #     required: true
   # pull_request:
   #   types: [opened, reopened]
   #   branches:
@@ -24,7 +24,6 @@ jobs:
 
       - name: Git config
         run: |
-          date > generated.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
           git tag -f $VERSION
