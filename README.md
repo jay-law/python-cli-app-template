@@ -15,7 +15,20 @@ Implements the following:
 
 # Installing
 
+```bash
+# Download
+wget https://github.com/jay-law/python-crud-template/releases/download/0.1.6/crud-cli-linux-0.1.6.tar.gz
+
+# Uncompress
+tar -xvf crud-cli-linux-0.1.6.tar.gz
+```
+
 # Using
+
+```bash
+# Execute
+./cli -c /home/jon/Documents/repos/personal/python-crud-template/configs/config.ini create
+```
 
 # Configuring
 
