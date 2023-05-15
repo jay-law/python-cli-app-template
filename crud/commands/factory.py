@@ -14,7 +14,7 @@ class BadCommandRequested(Exception):
 
 class CmdFactory:
     @staticmethod
-    def generate_command(cmd: str):
+    def generate_command(cmd: str) -> CreateCmd | DeleteCmd | ReadCmd | UpdateCmd:
         match cmd:
             case "create":
                 return CreateCmd()

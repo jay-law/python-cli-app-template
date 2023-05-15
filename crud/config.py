@@ -2,7 +2,8 @@ import logging
 import sys
 from configparser import ConfigParser, ExtendedInterpolation
 from pathlib import Path, PurePath
-from typing import Any
+from typing import Any, Tuple
+
 from dotenv import dotenv_values, load_dotenv
 
 logger = logging.getLogger(__name__)
@@ -11,12 +12,15 @@ logger = logging.getLogger(__name__)
 class ConfigFile:
     path: PurePath
     type: str
+    settings: ConfigParser | dict[Any, Any]
 
     def __init__(self, config_file: PurePath) -> None:
         self.path = config_file
         self.type, self.settings = self._set_type(config_file)
 
-    def _set_type(self, config_file: PurePath):
+    def _set_type(
+        self, config_file: PurePath
+    ) -> Tuple[str, ConfigParser] | Tuple[str, dict[Any, Any]]:
         match PurePath(config_file).suffix[1:].lower():
             case "ini":
                 return ("INI", self._parse_ini(config_file))

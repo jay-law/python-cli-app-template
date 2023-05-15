@@ -1,11 +1,12 @@
 import logging
 import logging.config
+from pathlib import PurePath
 
 import click
 
 from crud.commands.factory import CmdFactory
 from crud.config import configure_app
-from pathlib import  PurePath
+
 logger = logging.getLogger(__name__)
 
 
@@ -48,11 +49,12 @@ def create(ctx: click.Context) -> None:
 
 @cli.command()
 @click.pass_context
-@click.option("-f", "--file", "file", type=str)
-def read(ctx: click.Context, file) -> None:
+@click.option("-f", "--file", "file", type=PurePath)
+def read(ctx: click.Context, file: PurePath) -> None:
     cmd = CmdFactory.generate_command(cmd="read")
     cmd.validate_config()
-    cmd.execute(file)
+    cmd.execute()
+    cmd.read(file)  # type: ignore [union-attr]
 
 
 @cli.command()

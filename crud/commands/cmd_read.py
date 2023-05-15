@@ -1,4 +1,5 @@
 import logging
+from pathlib import PurePath
 
 from crud.commands.base import BaseCommand
 
@@ -12,6 +13,8 @@ class ReadCmd(BaseCommand):
         super().__init__()
         logger.info(f"Initalizing command: {self.cmd}")
 
-    def execute(self, file) -> None:
+    def execute(self) -> None:
         logger.info(f"Executing command: {self.cmd}")
+
+    def read(self, file: PurePath) -> None:
         logger.info(f"Reading file: {file}")
