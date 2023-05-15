@@ -1,7 +1,10 @@
+import sys
+import logging
 from configparser import ConfigParser, ExtendedInterpolation
 from pathlib import Path, PurePath
 
 from dotenv import dotenv_values, load_dotenv
+logger = logging.getLogger(__name__)
 
 
 class ConfigFile:
@@ -21,24 +24,20 @@ class ConfigFile:
             case _:
                 print("bad file type found")
 
-    def _parse_ini(self, config_file):
+    def _load_env(self, env_file):
+        load_dotenv(env_file)
+
+    def _parse_ini(self, ini_file):
         parser = ConfigParser(interpolation=ExtendedInterpolation())
-        parser.read(config_file)
+        parser.read(ini_file)
 
         return parser
 
-    def _load_env(self, env_file):
-        load_dotenv(env_file)
-        return dotenv_values(env_file)
 
+def configure_app(env_file):
+    
+    if not Path(env_file).exists():
+        logging.error(f"Bad file provided: {env_file}")
+        sys.exit(1)
+    ConfigFile(env_file)
 
-def configure_app(config_file, env_file):
-    if not Path(config_file).exists():
-        raise FileNotFoundError(f"Bad file: {config_file}")
-
-    if env_file is not None:
-        if not Path(env_file).exists():
-            raise FileNotFoundError(f"Bad file: {env_file}")
-        ConfigFile(env_file)
-
-    return ConfigFile(config_file)

@@ -8,13 +8,13 @@
 poetry run cli-command
 
 # Execute 'create' command
-poetry run cli-command -c configs/config.ini create 
+poetry run cli-command create
 
 # Execute 'create' command with .env file
-poetry run cli-command -c configs/config.ini -e configs/dev.env create
+poetry run cli-command -e configs/dev.env create
 
 # Execute 'read' command and pass parameter
-poetry run cli-command -c configs/config.ini -e configs/dev.env read -f file_to_read.txt
+poetry run cli-command -e configs/dev.env read -f file_to_read.txt
 ```
 
 # Packaging

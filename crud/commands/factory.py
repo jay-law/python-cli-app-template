@@ -14,15 +14,15 @@ class BadCommandRequested(Exception):
 
 class CmdFactory:
     @staticmethod
-    def generate_command(cmd: str, config):
+    def generate_command(cmd: str):
         match cmd:
             case "create":
-                return CreateCmd(config)
+                return CreateCmd()
             case "read":
-                return ReadCmd(config)
+                return ReadCmd()
             case "update":
-                return UpdateCmd(config)
+                return UpdateCmd()
             case "delete":
-                return DeleteCmd(config)
+                return DeleteCmd()
             case _:
                 raise BadCommandRequested(f"Bad command of: {cmd}")

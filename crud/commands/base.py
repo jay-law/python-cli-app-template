@@ -12,7 +12,6 @@ class BaseCommand:
 
     def validate_config(self):
         # Confirm config works
-        logger.debug(f"conf_file source: {self.config['DEFAULTS']['SOURCE']}")
         try:
             logger.debug(f"env_file source: {os.environ['SOURCE']}")
         except KeyError:

@@ -8,10 +8,9 @@ logger = logging.getLogger(__name__)
 class CreateCmd(BaseCommand):
     cmd: str = "create"
 
-    def __init__(self, config):
+    def __init__(self):
         super().__init__()
         logger.info(f"Initalizing command: {self.cmd}")
-        self.config = config
 
     def execute(self):
         logger.info(f"Executing command: {self.cmd}")

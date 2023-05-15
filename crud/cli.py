@@ -23,17 +23,18 @@ def configure_logging(log_level=str):
 @click.group
 @click.option("-v", "--verbose", "log_level", flag_value="DEBUG")
 @click.option("-q", "--quiet", "log_level", flag_value="CRITICAL")
-@click.option("-c", "--config", "config_file", type=str, required=True)
 @click.option("-e", "--environment", "env_file", type=str)
 @click.pass_context
-def cli(ctx, log_level, config_file, env_file):
-    config_parser = configure_app(config_file, env_file)
+def cli(ctx, log_level, env_file):
+
+    if env_file is not None:
+        configure_app(env_file)
 
     configure_logging(log_level)
 
     # params made available to cli.commands
     ctx.ensure_object(dict)
-    ctx.obj["config"] = config_parser.settings
+    ctx.obj["some_key"] = "some_value"
 
     pass
 
@@ -41,7 +42,8 @@ def cli(ctx, log_level, config_file, env_file):
 @cli.command()
 @click.pass_context
 def create(ctx):
-    cmd = CmdFactory.generate_command(cmd="create", config=ctx.obj["config"])
+    x = config=ctx.obj["some_key"]
+    cmd = CmdFactory.generate_command(cmd="create")
     cmd.validate_config()
     cmd.execute()
 
@@ -50,7 +52,8 @@ def create(ctx):
 @click.pass_context
 @click.option("-f", "--file", "file", type=str)
 def read(ctx, file):
-    cmd = CmdFactory.generate_command(cmd="read", config=ctx.obj["config"])
+    x = config=ctx.obj["some_key"]
+    cmd = CmdFactory.generate_command(cmd="read")
     cmd.validate_config()
     cmd.execute(file)
 
@@ -58,7 +61,8 @@ def read(ctx, file):
 @cli.command()
 @click.pass_context
 def update(ctx):
-    cmd = CmdFactory.generate_command(cmd="update", config=ctx.obj["config"])
+    x = config=ctx.obj["some_key"]
+    cmd = CmdFactory.generate_command(cmd="update")
     cmd.validate_config()
     cmd.execute()
 
@@ -66,7 +70,8 @@ def update(ctx):
 @cli.command()
 @click.pass_context
 def delete(ctx):
-    cmd = CmdFactory.generate_command(cmd="delete", config=ctx.obj["config"])
+    x = config=ctx.obj["some_key"]
+    cmd = CmdFactory.generate_command(cmd="delete")
     cmd.validate_config()
     cmd.execute()
 
