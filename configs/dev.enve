@@ -1,4 +1,0 @@
-# Example .env file.
-# These values will be injected into the execution environment as environment
-# variables.
-SOURCE=dev.env
