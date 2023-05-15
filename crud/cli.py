@@ -5,11 +5,11 @@ import click
 
 from crud.commands.factory import CmdFactory
 from crud.config import configure_app
-
+from pathlib import  PurePath
 logger = logging.getLogger(__name__)
 
 
-def configure_logging(log_level=str):
+def configure_logging(log_level: str) -> None:
     log_level = "INFO" if log_level is None else log_level
 
     logging.basicConfig(
@@ -21,9 +21,9 @@ def configure_logging(log_level=str):
 @click.group
 @click.option("-v", "--verbose", "log_level", flag_value="DEBUG")
 @click.option("-q", "--quiet", "log_level", flag_value="CRITICAL")
-@click.option("-e", "--environment", "env_file", type=str)
+@click.option("-e", "--environment", "env_file", type=PurePath)
 @click.pass_context
-def cli(ctx, log_level, env_file):
+def cli(ctx: click.Context, log_level: str, env_file: PurePath) -> None:
     if env_file is not None:
         configure_app(env_file)
 
@@ -38,7 +38,7 @@ def cli(ctx, log_level, env_file):
 
 @cli.command()
 @click.pass_context
-def create(ctx):
+def create(ctx: click.Context) -> None:
     x = ctx.obj["some_key"]
     logger.info(f"some_key value: {x}")
     cmd = CmdFactory.generate_command(cmd="create")
@@ -49,7 +49,7 @@ def create(ctx):
 @cli.command()
 @click.pass_context
 @click.option("-f", "--file", "file", type=str)
-def read(ctx, file):
+def read(ctx: click.Context, file) -> None:
     cmd = CmdFactory.generate_command(cmd="read")
     cmd.validate_config()
     cmd.execute(file)
@@ -57,7 +57,7 @@ def read(ctx, file):
 
 @cli.command()
 @click.pass_context
-def update(ctx):
+def update(ctx: click.Context) -> None:
     cmd = CmdFactory.generate_command(cmd="update")
     cmd.validate_config()
     cmd.execute()
@@ -65,13 +65,13 @@ def update(ctx):
 
 @cli.command()
 @click.pass_context
-def delete(ctx):
+def delete(ctx: click.Context) -> None:
     cmd = CmdFactory.generate_command(cmd="delete")
     cmd.validate_config()
     cmd.execute()
 
 
-def main():
+def main() -> None:
     cli()
 
 
