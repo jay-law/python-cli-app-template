@@ -1,9 +1,10 @@
-import sys
 import logging
+import sys
 from configparser import ConfigParser, ExtendedInterpolation
 from pathlib import Path, PurePath
 
-from dotenv import dotenv_values, load_dotenv
+from dotenv import load_dotenv
+
 logger = logging.getLogger(__name__)
 
 
@@ -22,7 +23,8 @@ class ConfigFile:
             case "env":
                 return ("ENV", self._load_env(config_file))
             case _:
-                print("bad file type found")
+                logging.error(f"Bad config file type provided: {config_file}")
+                sys.exit(1)
 
     def _load_env(self, env_file):
         load_dotenv(env_file)
@@ -35,9 +37,7 @@ class ConfigFile:
 
 
 def configure_app(env_file):
-    
     if not Path(env_file).exists():
         logging.error(f"Bad file provided: {env_file}")
         sys.exit(1)
     ConfigFile(env_file)
-

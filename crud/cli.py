@@ -1,6 +1,5 @@
 import logging
 import logging.config
-from pathlib import PurePath
 
 import click
 
@@ -11,9 +10,8 @@ logger = logging.getLogger(__name__)
 
 
 def configure_logging(log_level=str):
+    log_level = "INFO" if log_level is None else log_level
 
-    log_level = 'INFO' if log_level is None else log_level
-    
     logging.basicConfig(
         level=log_level,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -26,7 +24,6 @@ def configure_logging(log_level=str):
 @click.option("-e", "--environment", "env_file", type=str)
 @click.pass_context
 def cli(ctx, log_level, env_file):
-
     if env_file is not None:
         configure_app(env_file)
 
@@ -42,7 +39,8 @@ def cli(ctx, log_level, env_file):
 @cli.command()
 @click.pass_context
 def create(ctx):
-    x = config=ctx.obj["some_key"]
+    x = ctx.obj["some_key"]
+    logger.info(f"some_key value: {x}")
     cmd = CmdFactory.generate_command(cmd="create")
     cmd.validate_config()
     cmd.execute()
@@ -52,7 +50,6 @@ def create(ctx):
 @click.pass_context
 @click.option("-f", "--file", "file", type=str)
 def read(ctx, file):
-    x = config=ctx.obj["some_key"]
     cmd = CmdFactory.generate_command(cmd="read")
     cmd.validate_config()
     cmd.execute(file)
@@ -61,7 +58,6 @@ def read(ctx, file):
 @cli.command()
 @click.pass_context
 def update(ctx):
-    x = config=ctx.obj["some_key"]
     cmd = CmdFactory.generate_command(cmd="update")
     cmd.validate_config()
     cmd.execute()
@@ -70,7 +66,6 @@ def update(ctx):
 @cli.command()
 @click.pass_context
 def delete(ctx):
-    x = config=ctx.obj["some_key"]
     cmd = CmdFactory.generate_command(cmd="delete")
     cmd.validate_config()
     cmd.execute()
