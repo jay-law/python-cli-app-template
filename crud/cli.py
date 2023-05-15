@@ -10,12 +10,14 @@ from crud.config import configure_app
 logger = logging.getLogger(__name__)
 
 
-def configure_logging(config_file=PurePath("configs", "config.ini"), log_level=str):
-    logging.config.fileConfig(config_file, disable_existing_loggers=False)
+def configure_logging(log_level=str):
 
-    if log_level is not None:
-        for handler in logging.getLogger().handlers:
-            handler.setLevel(log_level)
+    log_level = 'INFO' if log_level is None else log_level
+    
+    logging.basicConfig(
+        level=log_level,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    )
 
 
 @click.group
@@ -27,7 +29,7 @@ def configure_logging(config_file=PurePath("configs", "config.ini"), log_level=s
 def cli(ctx, log_level, config_file, env_file):
     config_parser = configure_app(config_file, env_file)
 
-    configure_logging(config_file, log_level)
+    configure_logging(log_level)
 
     # params made available to cli.commands
     ctx.ensure_object(dict)
